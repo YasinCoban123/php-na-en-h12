@@ -1,35 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Opdracht 15 Yasin Coban</title>
-</head>
-<body>
-	<h1>Kapitaalberekening</h1>
-	<form method="post">
-		Startkapitaal: <input type="text" name="kapitaal"><br>
-		Rentepercentage: <input type="text" name="rente"><br>
-		Jaarlijkse opname: <input type="text" name="opname"><br>
-		<input type="submit" name="submit" value="Bereken de looptijd">
-	</form>
-	<br>
 <?php
-		if ($_SERVER["REQUEST_METHOD"] == "POST") {
-			$kapitaal = $_POST["kapitaal"];
-			$rente = $_POST["rente"]/100;
-			$opname = $_POST["opname"];
-			$jaar = 0;
+$conn = mysqli_connect("localhost", "root", "", "poll");
 
-			while ($kapitaal > 0 && $jaar <= 100) {
-			    $kapitaal += $kapitaal * $rente - $opname;
-			    $jaar++;
-			}
+$poll_query = "SELECT vraag FROM poll WHERE id = 1"; 
+$poll_result = mysqli_query($conn, $poll_query);
+$poll_row = mysqli_fetch_assoc($poll_result);
+echo "<h2>" . $poll_row['vraag'] . "</h2>";
 
-			if ($jaar > 100) {
-			echo "Het rentepercentage is te hoog om de berekening uit te voeren.";
-			} else {
-			echo "U kunt het bedrag " . ($jaar - 1) . " jaar lang opnemen met een jaarlijkse opname van € $opname. ";
-		}
-	}
+echo "<form method='post'>";
+$options_query = "SELECT * FROM optie WHERE id >= 1"; 
+$options_result = mysqli_query($conn, $options_query);
+while ($options_row = mysqli_fetch_assoc($options_result)) {
+    echo "<input type='radio' name='optie' id='" . $options_row['id'] . "' value='" . $options_row['id'] . "'>" . $options_row['optie'] . "<br>";
+}
+echo "<input type='submit' name='stemmen' value='Stemmen'>";
+echo "</form>";
+if (isset($_POST['stemmen'])) {
+    $optie_id = $_POST['optie'];
+    $stem_query = "UPDATE optie SET stemmen = stemmen + 1 WHERE id = $optie_id";
+    mysqli_query($conn, $stem_query);
+    header("Location: bedankt.php"); 
+    exit;
+}
 ?>
-</body>
-</html>
