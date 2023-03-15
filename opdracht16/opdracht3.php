@@ -57,7 +57,7 @@ if ($conn->query($sql) === TRUE) {
     echo "Fout: " . $sql . "<br>" . $conn->error;
 }
 
-// Maak een tabel met de gegevens van de browsers
+
 $sql = "SELECT browser, COUNT(*) AS aantal FROM browser GROUP BY browser";
 
 $result = $conn->query($sql);

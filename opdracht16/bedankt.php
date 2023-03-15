@@ -4,19 +4,19 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Haal de vraag op
+
 $stellingquery = "SELECT vraag FROM poll LIMIT 1";
 $stellingresult = mysqli_query($conn, $stellingquery);
 $stellingrow = mysqli_fetch_assoc($stellingresult);
 $stelling = $stellingrow['vraag'];
 
-// Haal de totale aantal stemmen op
+
 $totalquery = "SELECT SUM(stemmen) AS total FROM optie";
 $totalresult = mysqli_query($conn, $totalquery);
 $totalrow = mysqli_fetch_assoc($totalresult);
 $totalstemmen = $totalrow['total'];
 
-// Toon de vraag en de resultaten in een tabel
+
 echo "<h3>Poll resultaten:</h3>";
 echo "<table border=1>";
 echo "<tr><th>Stelling:</th><td>" . $stelling . "</td></tr>";

@@ -9,7 +9,6 @@ function generatePassword($length) {
   return $password;
 }
 
-// Gebruik de functie om een wachtwoord van lengte 10 te genereren
 echo 'Hier is uw willekeurig wachtwoord van 10 tekens: ';
 echo generatePassword(10);
 ?>
